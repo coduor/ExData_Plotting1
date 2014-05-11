@@ -1,0 +1,13 @@
+whatclass<-read.table("household_power_consumption.txt",header=TRUE,sep=";",nrows=50)
+classes<-sapply(whatclass,class)
+classes
+dataset<-read.table("household_power_consumption.txt",colClasses=classes,header=TRUE,sep=";",dec=".",na.strings = "?",skipNul=TRUE)
+head(dataset)
+dataset$Date1<-strptime(dataset$Date,"%d/%m/%Y")
+class(dataset$Date1)
+as.POSIXlt(dataset$Date1)
+summary(dataset$Global_active_power)
+dataset$wkd<-weekdays(dataset$Date1)
+with(dataset,plot(wkd,Global_active_power!=NULL,type="l"))
+dev.copy(png,file="plot2.png")
+dev.off()
